@@ -28,7 +28,10 @@ describe('Trains Controller', () => {
     it('should add a train if not already in the db', async () => {
       deps.db.get.mockReturnValueOnce(undefined)
 
-      await TrainsCtrl.addTrain(deps, {})
+      await TrainsCtrl.addTrain(deps, {
+        id: '1',
+        arrivalTimes: ['1000'],
+      })
 
       expect(deps.db.set).toHaveBeenCalled()
     })

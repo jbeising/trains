@@ -27,7 +27,7 @@ class Train {
   toDto() {
     return {
       id: this.id,
-      arrivalTimes: this.arrivalTimes,
+      arrivalTimes: this.arrivalTimes.sort(),
     }
   }
 
@@ -73,7 +73,7 @@ class TrainStation {
       nextOverlapTime = firstOverlapTime
     }
 
-    this.nextTimeOverlap = {
+    return {
       ...nextOverlapTime && {
         time: nextOverlapTime,
         trains: overlaps[nextOverlapTime],
@@ -82,12 +82,10 @@ class TrainStation {
   }
 
   toDto() {
-    this.findNextTimeOverlap()
-
     return {
       name: this.name,
-      trains: this.trains,
-      nextTimeOverlap: this.nextTimeOverlap,
+      trains: this.trains.map((train) => train.toDto()),
+      nextTimeOverlap: this.findNextTimeOverlap(),
     }
   }
 }
