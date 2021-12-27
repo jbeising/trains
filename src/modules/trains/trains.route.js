@@ -6,6 +6,30 @@ const validation = require('./trains.validation')
 module.exports = ({ trainsCtrl }) => express.Router()
   .post('/', validate(validation.addTrain), addTrain({ trainsCtrl }))
   .get('/next', nextTrains({ trainsCtrl }))
+  /**
+   * @openapi
+   *
+   *  /trains/{id}:
+   *    get:
+   *      tags:
+   *        - Trains
+   *      summary: Get a train by id
+   *      parameters:
+   *        - name: id
+   *          in: path
+   *          description: Train identifier
+   *          required: true
+   *          schema:
+   *            type: string
+   *            minLength: 1
+   *            maxLength: 4
+   *      responses:
+   *        200:
+   *          content:
+   *            application:json:
+   *              schema:
+   *                $ref: "#/components/schemas/Train"
+   */
   .get('/:id', validate(validation.getTrain), getTrain({ trainsCtrl }))
 
 const addTrain = ({ trainsCtrl }) =>
