@@ -5,12 +5,16 @@ const App = require('./app')
 const Config = require('./config')
 const Controllers = require('./controllers')
 const Models = require('./models')
+const Services = require('./services')
 
 const start = async () => {
   const dependencies = {}
 
   const config = Config()
   dependencies.config = config
+
+  const services = Services()
+  Object.assign(dependencies, services)
 
   const controllers = Controllers(dependencies)
   Object.assign(dependencies, controllers)

@@ -15,8 +15,6 @@ module.exports = (dependencies) => express.Router()
    *            application/json:
    *              schema:
    *                $ref: "#/components/schemas/LivenessResult"
-   *
-   *
    */
   .get('/liveness', getLiveness(dependencies))
 
