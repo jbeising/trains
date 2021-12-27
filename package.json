@@ -1,6 +1,6 @@
 {
   "name": "trains",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Transit manager service",
   "main": "server.js",
   "scripts": {
