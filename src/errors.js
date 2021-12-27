@@ -14,7 +14,16 @@ class MissingEntityError extends HttpError {
   }
 }
 
+class ForbiddenError extends HttpError {
+  constructor ({ message = 'Forbidden operation', entityId }) {
+    super({ message, statusCode: 403 })
+    this.name = 'ForbiddenError'
+    if (entityId) this.details = {entityId}
+  }
+}
+
 Object.assign(module.exports, {
   HttpError,
   MissingEntityError,
+  ForbiddenError,
 })

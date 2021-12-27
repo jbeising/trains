@@ -1,6 +1,6 @@
 const Train = require('./trains.models')
 
-const { MissingEntityError } = require('../../errors')
+const { MissingEntityError, ForbiddenError } = require('../../errors')
 
 module.exports = (dependencies) =>
   Object.entries(module.exports)
@@ -9,8 +9,21 @@ module.exports = (dependencies) =>
       [fnName]: fn.bind(null, dependencies),
     }), {})
 
-const addTrain = async () => {
+const addTrain = async ({ db }, requestData) => {
+  const newTrain = new Train(requestData)
 
+  const existingTrain = db.get(newTrain.id)
+
+  if (existingTrain) {
+    throw new ForbiddenError({
+      message: 'A train already exists with the given id',
+      entityId: existingTrain.id,
+    })
+  }
+
+  db.set(newTrain.id, newTrain.toDbSchema())
+
+  return newTrain.toDto()
 }
 
 const getTrain = async ({ db }, { id }) => {

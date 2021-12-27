@@ -1,5 +1,5 @@
 const TrainsCtrl = require('../../../src/modules/trains/trains.ctrl')
-const { MissingEntityError } = require('../../../src/errors')
+const { MissingEntityError, ForbiddenError } = require('../../../src/errors')
 
 describe('Trains Controller', () => {
   let deps
@@ -14,6 +14,24 @@ describe('Trains Controller', () => {
         keys: jest.fn(),
       },
     }
+  })
+
+  describe('addTrain', () => {
+    it('should add a train if not already in the db', async () => {
+      deps.db.get.mockReturnValueOnce(undefined)
+
+      await TrainsCtrl.addTrain(deps, {})
+
+      expect(deps.db.set).toHaveBeenCalled()
+    })
+
+    it('should throw a "ForbiddenError" if the train already exists', async () => {
+      const thrownError = await TrainsCtrl.addTrain(deps, {})
+        .catch((error) => error)
+
+      expect(thrownError).toBeInstanceOf(ForbiddenError)
+      expect(thrownError).toHaveProperty('statusCode', 403)
+    })
   })
 
   describe('getTrain', () => {

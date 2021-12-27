@@ -9,11 +9,15 @@ class Train {
       properties: {
         id: {
           type: 'string',
+          example: 'TOMO',
         },
         arrivalTimes: {
           type: 'array',
           items: {
             type: 'string',
+            minLength: 4,
+            maxLength: 4,
+            example: '1800',
           },
         },
       },
@@ -24,6 +28,14 @@ class Train {
     return {
       id: this.id,
       arrivalTimes: this.arrivalTimes,
+    }
+  }
+
+  toDbSchema() {
+    return {
+      id: this.id,
+      arrivalTimes: this.arrivalTimes,
+      createdAt: new Date(),
     }
   }
 }
