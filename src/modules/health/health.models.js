@@ -7,6 +7,27 @@ class LivenessResult {
     }
   }
 
+  static definition() {
+    return {
+      properties: {
+        app: {
+          properties: {
+            name: {
+              type: 'string',
+            },
+            status: {
+              type: 'string',
+            },
+            version: {
+              type: 'string',
+            },
+          },
+        },
+
+      },
+    }
+  }
+
   toDto() {
     return this.app
   }
