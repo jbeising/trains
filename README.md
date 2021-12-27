@@ -22,3 +22,6 @@ There are a few config properties, which are explained below:
 - `app.version`: The version of the application (automatically pulled from `package.json`)
 - `app.debug`: Whether or not the app should be in debug mode, whichs returns a stack trace in the response payload if an error occurs. Pulled from the env variable `APP_DEBUG`. A `string` that evaluates to `'1'` or `'true'` will be `true`, any other value will be `false`
 - `httpServer.port`: The port the server should listen on. Defaults to `3000`, but can be set with the env variable `HTTP_PORT`
+
+## API
+For detailed api documentation, check out our [swagger page](http://localhost:3000/docs)! (service must be running)
