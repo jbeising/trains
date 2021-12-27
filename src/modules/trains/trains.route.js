@@ -59,6 +59,28 @@ module.exports = ({ trainsCtrl }) => express.Router()
    *                    type: object
    */
   .post('/', validate(validation.addTrain), addTrain({ trainsCtrl }))
+  /**
+   * @openapi
+   *
+   *  /trains/next:
+   *    get:
+   *      tags:
+   *        - Trains
+   *      summary: Find the next time that more than one train departs
+   *      description: Returns empty `nextTimeOverlap` object if no overlapping times are found
+   *      responses:
+   *        200:
+   *          content:
+   *            application:json:
+   *              schema:
+   *                $ref: "#/components/schemas/TrainStation"
+   *        400:
+   *          description: Validation error
+   *          content:
+   *            application:json:
+   *              schema:
+   *                type: string
+   */
   .get('/next', nextTrains({ trainsCtrl }))
   /**
    * @openapi

@@ -46,6 +46,39 @@ class TrainStation {
     this.trains = trains.map((train) => new Train(train))
   }
 
+  static definition() {
+    return {
+      properties: {
+        name: {
+          type: 'string',
+          example: 'TOMO Railroad Station',
+        },
+        trains: {
+          type: 'array',
+          items: {
+            '$ref': '#/components/schemas/Train',
+          },
+        },
+        nextTimeOverlap: {
+          type: 'object',
+          properties: {
+            time: {
+              type: 'string',
+              example: '1100',
+            },
+            trains: {
+              type: 'array',
+              items: {
+                type: 'string',
+                example: ['A1', 'A2', 'B7'],
+              },
+            },
+          },
+        },
+      },
+    }
+  }
+
   findNextTimeOverlap() {
     const timeMap = this.trains.reduce((acc, train) => {
       train.arrivalTimes.forEach((time) => {

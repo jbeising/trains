@@ -21,6 +21,7 @@ const setupSwagger = ({ config, models }) => swaggerJsDoc({
       schemas: {
         LivenessResult: models.LivenessResult.definition(),
         Train: models.Train.definition(),
+        TrainStation: models.TrainStation.definition(),
       },
     },
   },

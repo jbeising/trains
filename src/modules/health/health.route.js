@@ -4,7 +4,7 @@ module.exports = (dependencies) => express.Router()
   /**
    * @openapi
    *
-   *  /liveness:
+   *  /health/liveness:
    *    get:
    *      tags:
    *        - Health
