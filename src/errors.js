@@ -7,7 +7,7 @@ class HttpError extends Error {
 }
 
 class MissingEntityError extends HttpError {
-  constructor ({ message = 'Entity not found', entityId }) {
+  constructor ({ message = 'Entity not found', entityId } = {}) {
     super({ message, statusCode: 404 })
     this.name = 'MissingEntityError'
     if (entityId) this.details = {entityId}
@@ -15,7 +15,7 @@ class MissingEntityError extends HttpError {
 }
 
 class ForbiddenError extends HttpError {
-  constructor ({ message = 'Forbidden operation', entityId }) {
+  constructor ({ message = 'Forbidden operation', entityId } = {}) {
     super({ message, statusCode: 403 })
     this.name = 'ForbiddenError'
     if (entityId) this.details = {entityId}

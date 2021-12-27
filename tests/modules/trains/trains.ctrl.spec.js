@@ -6,14 +6,22 @@ describe('Trains Controller', () => {
   beforeEach(() => {
     deps = {
       db: {
-        get: jest.fn().mockReturnValue({
-          id: 'test',
-          arrivalTimes: [500, 1000, 1300],
-        }),
+        get: jest.fn().mockImplementation((id) => ({
+          id,
+          arrivalTimes: ['1000'],
+        })),
         set: jest.fn(),
-        keys: jest.fn(),
+        keys: jest.fn().mockReturnValue(['1', '2']),
       },
     }
+  })
+
+  it('should return an object with functions', () => {
+    const ctrl = TrainsCtrl(deps)
+    const [ firstFnName ] = Object.keys(ctrl)
+
+    expect(ctrl).toBeInstanceOf(Object)
+    expect(ctrl[firstFnName]).toBeInstanceOf(Function)
   })
 
   describe('addTrain', () => {
@@ -49,6 +57,33 @@ describe('Trains Controller', () => {
 
       expect(thrownError).toBeInstanceOf(MissingEntityError)
       expect(thrownError).toHaveProperty('statusCode', 404)
+    })
+  })
+
+  describe('nextTrains', () => {
+    it('should return the time and trains information for the next time overlap', async () => {
+      const nextTrains = await TrainsCtrl.nextTrains(deps)
+
+      expect(nextTrains).toHaveProperty('nextTimeOverlap')
+      expect(nextTrains.nextTimeOverlap).toMatchObject({
+        time: '1000',
+        trains: ['1', '2'],
+      })
+    })
+
+    // Note, I'm expecting that this test will never be run before 1am :)
+    it('should return the next available time if none are found for today', async () => {
+      deps.db.get
+        .mockReturnValueOnce({ id: '1', arrivalTimes: ['0100'] })
+        .mockReturnValueOnce({ id: '2', arrivalTimes: ['0100', '0400'] })
+
+      const nextTrains = await TrainsCtrl.nextTrains(deps)
+
+      expect(nextTrains).toHaveProperty('nextTimeOverlap')
+      expect(nextTrains.nextTimeOverlap).toMatchObject({
+        time: '0100',
+        trains: ['1', '2'],
+      })
     })
   })
 })

@@ -1,5 +1,4 @@
-const Train = require('./trains.models')
-
+const { Train, TrainStation } = require('./trains.models')
 const { MissingEntityError, ForbiddenError } = require('../../errors')
 
 module.exports = (dependencies) =>
@@ -39,8 +38,12 @@ const getTrain = async ({ db }, { id }) => {
   return new Train(train).toDto()
 }
 
-const nextTrains = async () => {
+const nextTrains = async ({ db }) => {
+  const trains = db.keys().map((key) => db.get(key))
 
+  const station = new TrainStation({ trains })
+
+  return station.toDto()
 }
 
 Object.assign(module.exports, {
