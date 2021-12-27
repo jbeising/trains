@@ -10,6 +10,16 @@ module.exports = {
     ecmaVersion: 13,
     sourceType: 'module',
   },
+  overrides: [
+    {
+      files : [
+        'tests/**/*.spec.js',
+      ],
+      env: {
+        jest: true,
+      },
+    },
+  ],
   rules: {
     'comma-dangle': ['error', 'always-multiline'],
     indent: ['error', 2],

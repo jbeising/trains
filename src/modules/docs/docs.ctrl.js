@@ -20,6 +20,7 @@ const setupSwagger = ({ config, models }) => swaggerJsDoc({
     components: {
       schemas: {
         LivenessResult: models.LivenessResult.definition(),
+        Train: models.Train.definition(),
       },
     },
   },

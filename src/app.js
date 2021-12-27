@@ -7,20 +7,21 @@ const Router = require('./router')
 module.exports = (dependencies) => {
   const app = express()
 
-  loadMiddleware(dependencies, app)
+  loadMiddleware(app)
 
   const router = Router(dependencies)
 
-  app.use(router)
+  app
+    .use(router)
+    .use(errorHandler(dependencies))
 
   return app
 }
 
-const loadMiddleware = (dependencies, app) => {
+const loadMiddleware = (app) => {
   app
     .use(helmet())
     .use(express.json())
-    .use(errorHandler(dependencies))
 }
 
 /*
@@ -37,6 +38,7 @@ const errorHandler = ({ config }) => (err, req, res, next) => { // eslint-disabl
   }
 
   const payload = { error: err.message }
+  if (err.details) payload.details = err.details
 
   if (config.app.debug && err.stack) {
     payload.stack = err.stack

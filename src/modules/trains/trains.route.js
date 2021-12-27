@@ -6,7 +6,7 @@ const validation = require('./trains.validation')
 module.exports = ({ trainsCtrl }) => express.Router()
   .post('/', validate(validation.addTrain), addTrain({ trainsCtrl }))
   .get('/next', nextTrains({ trainsCtrl }))
-  .get('/{id}', validate(validation.getTrain), getTrain({ trainsCtrl }))
+  .get('/:id', validate(validation.getTrain), getTrain({ trainsCtrl }))
 
 const addTrain = ({ trainsCtrl }) =>
   (req, res, next) =>

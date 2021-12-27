@@ -1,16 +1,17 @@
-const dbStore = {}
+module.exports = () => {
+  const dbStore = new Map()
 
-module.exports = () => ({
-  set(key, val) {
-    dbStore[key] = val
-  },
-  get(key) {
-    return dbStore[key]
-  },
-  keys() {
-    const dbKeys = Object.keys(dbStore)
-    if (dbKeys.length) return dbKeys
+  return {
+    set(key, val) {
+      dbStore.set(key, val)
+    },
+    get(key) {
+      return dbStore.get(key)
+    },
+    keys() {
+      if (!dbStore.size) return []
 
-    return []
-  },
-})
+      return [ ...dbStore.keys() ]
+    },
+  }
+}

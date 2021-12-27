@@ -8,7 +8,7 @@ class HttpError extends Error {
 
 class MissingEntityError extends HttpError {
   constructor ({ message = 'Entity not found', entityId }) {
-    super(message, 404)
+    super({ message, statusCode: 404 })
     this.name = 'MissingEntityError'
     if (entityId) this.details = {entityId}
   }
